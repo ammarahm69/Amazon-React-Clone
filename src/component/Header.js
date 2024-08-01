@@ -1,12 +1,22 @@
-import React from "react";
 import Logo from "../assets/amazon_PNG11.png";
 import "./Header.css";
-import {
-  MenuIcon,
-  SearchIcon,
-  ShoppingCartIcon,
-} from "@heroicons/react/outline";
+import { MenuIcon, SearchIcon, ShoppingCartIcon } from "@heroicons/react/outline";
+import SignInButton from './SignIn';
+import { useState, useEffect } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 function Header() {
+  const [user, setUser] = useState(null);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
   return (
     <header>
       {/* Top nav */}
@@ -20,7 +30,7 @@ function Header() {
             className="object-contain cursor-pointer"
           />
         </div>
-        {/*Input Feild  */}
+        {/* Input Field */}
         <div className="cursor-pointer mx-6 hidden sm:flex items-center h-10 rounded-md flex-grow bg-yellow-400 hover:bg-yellow-500">
           <input
             type="text"
@@ -30,11 +40,10 @@ function Header() {
         </div>
 
         {/* Right */}
-
         <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
           <div className="cursor-pointer hover:underline">
-            <p>Hello Sonny Sanga</p>
-            <p className="font-bold md:text-sm">Account & List</p>
+            <p>{user ? `Hello ${user.displayName}` : ""}</p>
+            {!user && <SignInButton />}
           </div>
           <div className="cursor-pointer hover:underline">
             <p>Returns</p>
@@ -50,16 +59,15 @@ function Header() {
         </div>
       </div>
 
-      {/*Bottom Nav  */}
-
+      {/* Bottom Nav */}
       <div className="flex items-center bg-nav-light text-white space-x-3 p-2 pl-6">
         <p className="flex items-center cursor-pointer hover:underline">
           <MenuIcon className="h-6 mr-2" />
-          All Item
+          All Items
         </p>
         <p className="cursor-pointer hover:underline">Amazon Business</p>
         <p className="cursor-pointer hover:underline">Prime Video</p>
-        <p className="cursor-pointer hover:underline">Todays & Deals</p>
+        <p className="cursor-pointer hover:underline">Today's Deals</p>
         <p className="cursor-pointer hover:underline hidden lg:inline-block">
           Electronics
         </p>

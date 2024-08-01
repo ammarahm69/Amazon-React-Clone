@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PrimeImage from '../assets/prime.png'
+import PrimeImage from "../assets/prime.png";
 
 const Max_Rating = 5;
 const Min_Rating = 1;
@@ -12,8 +12,15 @@ function Product({ id, title, price, description, category, image }) {
 
   return (
     <div className="relative flex flex-col m-5 bg-white z-30 p-10">
-      <p className="absoulte top-2 right-2">{category}</p>
-      <img src={image} height={200} width={200} className="object-contain" />
+      <p className="absolute top-2 right-0 text-sm text-gray-400">{category.toUpperCase()}</p>
+      <img
+      
+        src={image}
+        height={170}
+        width={170}
+        className="object-contain ps-10"
+        alt=""
+      />
       <h4>{title}</h4>
 
       <div className="flex">
@@ -23,7 +30,7 @@ function Product({ id, title, price, description, category, image }) {
             <svg
               key={i} // Add a key here for each SVG element
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-5 w-5 text-yellow-400"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -32,16 +39,18 @@ function Product({ id, title, price, description, category, image }) {
           ))}
       </div>
       {hasPrime && <p>Has Prime Delivery</p>}
-      <p>{description}</p>
-     <p><strong>{price} $</strong></p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, exercitationem!</p>
+      <p>
+        <strong>{price} $</strong>
+      </p>
 
-     {hasPrime && (
-      <div>
-        <img src={PrimeImage} alt="" />
-        <p>Free Next-day Delivery</p>
-      </div>
-     )}
-     <button>Add to Basket</button>
+      {hasPrime && (
+        <div className="flex items-center space-x-2">
+          <img src={PrimeImage} alt="" className="w-12"/>
+          <p className="text-xs text-gray-500">Free Next-day Delivery</p>
+        </div>
+      )}
+      <button className="mt-auto  p-2 text-xs md-text-sm bg-gradient-to-t-b from-yellow-200 to bg-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500">Add to Basket</button>
     </div>
   );
 }
