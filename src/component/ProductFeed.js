@@ -1,6 +1,5 @@
 import React from "react";
 import Product from "./Product";
-import Banner from "../assets/banner.webp"
 
 function ProductFeed({ products }) {
   return (

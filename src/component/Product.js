@@ -1,14 +1,31 @@
 import React, { useState } from "react";
 import PrimeImage from "../assets/prime.png";
-
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../slices/basketSlice";
 const Max_Rating = 5;
 const Min_Rating = 1;
 
 function Product({ id, title, price, description, category, image }) {
+  
+  const dispatch = useDispatch();
   const [rating] = useState(
     Math.floor(Math.random() * Max_Rating - Min_Rating + 1) + Min_Rating
   );
   const [hasPrime] = useState(Math.random() < 0.5);
+
+  const addItemsToBasket =()=>{
+    //We have to dispatch first to the global store
+    const product = {
+      id,
+      title,
+      price,
+      description,
+      category,
+      image
+    };
+    //Sending the product as an action to the REDUX store ... the basket slice
+    dispatch(addToBasket(product))
+  }
 
   return (
     <div className="relative flex flex-col m-5 bg-white z-30 p-10">
@@ -50,7 +67,7 @@ function Product({ id, title, price, description, category, image }) {
           <p className="text-xs text-gray-500">Free Next-day Delivery</p>
         </div>
       )}
-      <button className="mt-auto  p-2 text-xs md-text-sm bg-gradient-to-t-b from-yellow-200 to bg-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500">Add to Basket</button>
+      <button className="mt-auto  p-2 text-xs md-text-sm bg-gradient-to-t-b from-yellow-200 to bg-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500" onClick={addItemsToBasket}>Add to Basket</button>
     </div>
   );
 }

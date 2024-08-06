@@ -1,9 +1,16 @@
 import Logo from "../assets/amazon_PNG11.png";
 import "./Header.css";
-import { MenuIcon, SearchIcon, ShoppingCartIcon } from "@heroicons/react/outline";
-import SignInButton from './SignIn';
+import {
+  MenuIcon,
+  SearchIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/outline";
+import SignInButton from "./SignIn";
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectItems } from "../slices/basketSlice";
 
 function Header() {
   const [user, setUser] = useState(null);
@@ -17,18 +24,22 @@ function Header() {
     return () => unsubscribe();
   }, [auth]);
 
+  const items = useSelector(selectItems)
+
   return (
     <header>
       {/* Top nav */}
       <div className="flex items-center bg-nav flex-grow px-2">
         <div className="mt-2 flex items-center flex-grow sm:flex-grow-0">
-          <img
-            src={Logo}
-            alt=""
-            width={130}
-            height={40}
-            className="object-contain cursor-pointer"
-          />
+          <Link to="/">
+            <img
+              src={Logo}
+              alt=""
+              width={130}
+              height={40}
+              className="object-contain cursor-pointer"
+            />
+          </Link>
         </div>
         {/* Input Field */}
         <div className="cursor-pointer mx-6 hidden sm:flex items-center h-10 rounded-md flex-grow bg-yellow-400 hover:bg-yellow-500">
@@ -42,20 +53,25 @@ function Header() {
         {/* Right */}
         <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
           <div className="cursor-pointer hover:underline">
-            <p>{user ? `Hello ${user.displayName}` : ""}</p>
+            <p className="text-1xl">
+              {user ? `Hello ${user.displayName}` : ""}
+            </p>
             {!user && <SignInButton />}
           </div>
           <div className="cursor-pointer hover:underline">
             <p>Returns</p>
             <p className="font-bold md:text-sm">& Orders</p>
           </div>
-          <div className="relative flex items-center cursor-pointer hover:underline">
-            <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black">
-              0
-            </span>
-            <ShoppingCartIcon className="h-10" />
-            <p className="font-bold md:text-sm hidden md:inline">Basket</p>
-          </div>
+          <Link to="/checkout">
+            <div className="relative flex items-center cursor-pointer hover:underline">
+              <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black">
+              {items.length}
+              </span>
+
+              <ShoppingCartIcon className="h-10" />
+              <p className="font-bold md:text-sm hidden md:inline">Basket</p>
+            </div>
+          </Link>
         </div>
       </div>
 
