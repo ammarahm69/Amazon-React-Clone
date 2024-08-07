@@ -3,6 +3,9 @@ import { selectItems } from "../slices/basketSlice";
 import CheckoutProduct from "../component/CheckoutProduct";
 function Checkout() {
   const items = useSelector(selectItems);
+  const createCheckoutSession = ()=>{
+    
+  }
 
   return (
     <div className="bg-gray-100 flex-col m-auto max-w-2xl">
@@ -43,7 +46,14 @@ function Checkout() {
       <div>
         {items.length > 0 && (
           <>
-            <h2 className="whitespace-nowrap">({items.length} items)</h2>
+            <h2 className="whitespace-nowrap mb-5">({items.length} items)</h2>
+            <button
+              role="link"
+              className="bg-yellow-400 p-2 text-grey rounded-md"
+              onClick={createCheckoutSession}
+            >
+              Proceed To Checkout
+            </button>
           </>
         )}
       </div>
